@@ -1,0 +1,26 @@
+﻿@using MVCCourse.Models
+@model IEnumerable<Students>
+@section title {
+    Student List
+}
+@* <form asp-controller="Student" asp-action="AddStudent" method="get">
+    <button type="submit" class="btn btn-primary">Add New Student</button>
+</form> *@
+@* OR *@
+<a asp-controller="Student" asp-action="AddStudent" class="btn btn-primary">Add New Student</a> 
+
+<hr />
+<table>
+    <thead> Student Data </thead>
+    <tbody>
+        @if (Model!=null && Model.Any()){
+            foreach(var student in Model)
+            {
+                <tr>
+                    <td>@student.Id</td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
