@@ -6,21 +6,122 @@
 @* <form asp-controller="Student" asp-action="AddStudent" method="get">
     <button type="submit" class="btn btn-primary">Add New Student</button>
 </form> *@
-@* OR *@
-<a asp-controller="Student" asp-action="AddStudent" class="btn btn-primary">Add New Student</a> 
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h3 class="mb-0">Student List</h3>
+
+    <div class="d-flex gap-2">
+        <!-- Button 1: Navigates to AddStudent Page -->
+        <a asp-controller="Student" asp-action="AddStudent" class="btn btn-outline-primary">
+            <i class="bi bi-plus-circle"></i> Add via Page
+        </a>
+
+        <!-- Button 2: Opens Bootstrap Modal -->
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addStudentModal">
+            <i class="bi bi-person-plus-fill"></i> Add via Modal
+        </button>
+    </div>
+</div>
 
 <hr />
-<table>
-    <thead> Student Data </thead>
+<table class="table table-striped table-bordered table-hover">
+    <thead class="table-dark">
+        <tr>
+            <th scope="col">Student ID</th>
+            <th scope="col">First Name</th>
+            <th scope="col">Last Name</th>
+            <th scope="col">Age</th>
+            <th scope="col">Address</th>
+            <th scope="col">Result</th>
+        </tr>
+    </thead>
     <tbody>
-        @if (Model!=null && Model.Any()){
-            foreach(var student in Model)
+        @if (Model != null && Model.Any())
+        {
+            foreach (var student in Model)
             {
                 <tr>
                     <td>@student.Id</td>
+                    <td>@student.FirstName</td>
+                    <td>@student.LastName</td>
+                    <td>@student.Age</td>
+                    <td>@student.Address</td>
+                    <td>@student.Result</td>
                 </tr>
             }
         }
     </tbody>
 </table>
+
+
+<!-- Bootstrap Modal for Add Student Form -->
+<div class="modal fade" id="addStudentModal" tabindex="-1" aria-labelledby="addStudentModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form asp-action="AddStudent" method="post" class="needs-validation" novalidate>
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addStudentModalLabel">Add New Student</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="Id" class="form-label">Id</label>
+                        <input type="number" class="form-control" id="Id" name="Id" required />
+                        <div class="invalid-feedback">Please enter student Id.</div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="Age" class="form-label">Age</label>
+                        <input type="number" class="form-control" id="Age" name="Age" required />
+                        <div class="invalid-feedback">Please enter age.</div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="FirstName" class="form-label">First Name</label>
+                        <input type="text" class="form-control" id="FirstName" name="FirstName" required />
+                        <div class="invalid-feedback">Please enter first name.</div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="LastName" class="form-label">Last Name</label>
+                        <input type="text" class="form-control" id="LastName" name="LastName" required />
+                        <div class="invalid-feedback">Please enter last name.</div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="Address" class="form-label">Address</label>
+                        <textarea class="form-control" id="Address" name="Address" rows="2" required></textarea>
+                        <div class="invalid-feedback">Please enter address.</div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="Result" class="form-label">Result</label>
+                        <input type="text" class="form-control" id="Result" name="Result" required />
+                        <div class="invalid-feedback">Please enter result.</div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="reset" class="btn btn-secondary">Reset</button>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Bootstrap form validation setup
+        (() => {
+            'use strict'
+            const forms = document.querySelectorAll('.needs-validation')
+            Array.from(forms).forEach(form => {
+                form.addEventListener('submit', event => {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+                    form.classList.add('was-validated')
+                }, false)
+            })
+        })()
+    </script>
+}
+
 
